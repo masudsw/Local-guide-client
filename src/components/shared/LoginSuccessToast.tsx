@@ -7,11 +7,12 @@ import { toast } from "sonner";
 
 const LoginSuccessToast = () => {
     const searchParams=useSearchParams();
-    const router=useRouter();;
+    const router=useRouter();
 
     useEffect(() => {
         if(searchParams.get("loggedIn")==="true"){
             toast.success("You have been logged in successfully!");
+            
             const newURL = new URL(window.location.href);
             newURL.searchParams.delete("loggedIn");
             router.replace(newURL.toString());
