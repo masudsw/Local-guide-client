@@ -60,7 +60,7 @@ export default function FeaturedDestinations() {
                             className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
                         >
                             {/* Image Container */}
-                            <div className="relative aspect-[4/5] w-full">
+                            <div className="relative aspect-4/5 w-full">
                                 <Image
                                     src={dest.image}
                                     alt={`${dest.city}, ${dest.country}`}
@@ -68,7 +68,7 @@ export default function FeaturedDestinations() {
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
                                 {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
 
                                 {/* Text Overlay (Bottom) */}
                                 <div className="absolute bottom-0 left-0 p-5 w-full text-white">
