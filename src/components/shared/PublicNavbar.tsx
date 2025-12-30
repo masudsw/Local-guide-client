@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
 
 const PublicNavbar = async () => {
   const navIterms = [
@@ -52,7 +52,8 @@ const PublicNavbar = async () => {
               </svg>
             </button>
           </SheetTrigger>
-          <SheetContent side="right">
+          <SheetContent side="right" className='w-[300px] sm:w-[400px] p-4'>
+            <SheetTitle></SheetTitle>
             <nav className="flex flex-col space-y-4 mt-4">
               {navIterms.map((item) => (
                 <Link

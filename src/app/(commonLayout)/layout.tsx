@@ -5,7 +5,6 @@ const CommonLayout = ({children}:{children:React.ReactNode}) => {
     return (
         <>
         <PublicNavbar />
-        <h1>Common layout</h1>
         {children}
         </>
     );
