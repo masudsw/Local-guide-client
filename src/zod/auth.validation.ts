@@ -1,7 +1,11 @@
 import z from "zod";
 
 export const loginValidationZodSchema = z.object({
-    email: z.email({ message: "Invalid email address" }),
+    email: z
+        .string()
+        .min(1, { message: "Email is required" }) // This catches the empty string
+        .email({ message: "Invalid email address" }),
     password: z.string().min(6, { message: "Password must be at least 6 characters long" })
         .max(100, { message: "Password must be at most 100 characters long" }),
 });
+
