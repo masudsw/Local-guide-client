@@ -62,3 +62,16 @@ export const isValidRedirectForRole=(redirectPath:string, role:UserRole):boolean
     }
     return false;
 };
+
+export const getDefaultDashboardRoute=(role:UserRole): string=>{
+    if(role==="ADMIN"){
+        return "/admin/dashboard";
+    }
+    if(role==="GUIDE"){
+        return "/guide/dashboard"
+    }
+    if(role==="TOURIST"){
+        return "/dashboard"
+    }
+    return "/";
+}

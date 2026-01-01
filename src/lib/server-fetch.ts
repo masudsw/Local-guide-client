@@ -1,5 +1,6 @@
-import { getNewAccessToken } from "@/app/services/auth/auth.service";
-import { getCookie } from "@/app/services/auth/tokenHandlers";
+import { getNewAccessToken } from "@/services/auth/auth.service";
+import { getCookie } from "@/services/auth/tokenHandlers";
+
 
 const BACEND_API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api/v1";
 

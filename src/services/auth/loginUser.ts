@@ -1,3 +1,4 @@
+"use server"
 import { serverFetch } from "@/lib/server-fetch";
 import { zodValidator } from "@/lib/zodValidator";
 import { loginValidationZodSchema } from "@/zod/auth.validation";
@@ -6,7 +7,7 @@ import { parse } from "cookie";
 
 import { setCookie } from "./tokenHandlers";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { isValidRedirectForRole } from "@/lib/auth-utils";
+import { getDefaultDashboardRoute, isValidRedirectForRole } from "@/lib/auth-utils";
 
 
 export const loginUser = async (_currentStatus: any, formData: any) => {
@@ -94,7 +95,8 @@ export const loginUser = async (_currentStatus: any, formData: any) => {
         }
         return {
             success: false,
-            message: `${process.env.NODE_ENV === 'development' ? error.message : "Incorrect credintial"}`;
+            message: `${process.env.NODE_ENV === 'development' ? error.message : "Incorrect credintial"}`,
         }
 
     }
+}
