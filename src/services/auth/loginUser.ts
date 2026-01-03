@@ -1,49 +1,4 @@
-// import { loginValidationZodSchema } from "@/zod/auth.validation";
 
-
-
-
-// export const loginUser = async (_currentState: any, formData: any): Promise<any> => {
-//     try {
-//         const loginData = {
-//             email: formData.get('email'),
-//             password: formData.get('password'),
-//         }
-
-//         const validatedFields = loginValidationZodSchema.safeParse(loginData);
-
-//         if (!validatedFields.success) {
-//             return {
-//                 success: false,
-//                 errors: validatedFields.error.issues.map(issue => {
-//                     return {
-//                         field: issue.path[0],
-//                         message: issue.message,
-//                     }
-//                 })
-//             }
-//         }
-
-//         const res = await fetch("http://localhost:5000/api/v1/auth/login", {
-//             method: "POST",
-//             body: JSON.stringify(loginData),
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//         });
-//         const setCookieHeaders = res.headers.getSetCookie();
-//         console.log("setCookiHeaders",setCookieHeaders)
-
-
-//         return res;
-
-//     } catch (error) {
-//         console.log(error);
-//         return { error: "Login failed" };
-//     }
-// }
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
 import { getDefaultDashboardRoute, isValidRedirectForRole, UserRole } from "@/lib/auth-utils";
@@ -66,14 +21,13 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             email: formData.get('email'),
             password: formData.get('password'),
         }
-        console.log("payload",payload)
 
         if (zodValidator(payload, loginValidationZodSchema).success === false) {
             return zodValidator(payload, loginValidationZodSchema);
         }
 
         const validatedPayload = zodValidator(payload, loginValidationZodSchema).data;
-        console.log("validated payload",validatedPayload)
+        
         const res = await serverFetch.post("/auth/login", {
             body: JSON.stringify(validatedPayload),
             headers: {
@@ -82,10 +36,9 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         });
 
         const result = await res.json();
-        console.log("result------------",result)
 
         const setCookieHeaders = res.headers.getSetCookie();
-        console.log("setCookieHeaders", setCookieHeaders);
+       
 
         if (setCookieHeaders && setCookieHeaders.length > 0) {
             setCookieHeaders.forEach((cookie: string) => {
@@ -126,7 +79,7 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
             path: refreshTokenObject.Path || "/",
             sameSite: refreshTokenObject['SameSite'] || "none",
         });
-        const verifiedToken: JwtPayload | string = jwt.verify(accessTokenObject.accessToken, process.env.JWT_SECRET as string);
+        const verifiedToken: JwtPayload | string = jwt.verify(accessTokenObject.accessToken, process.env.ACCESS_TOKEN_SECRET as string);
 
         if (typeof verifiedToken === "string") {
             throw new Error("Invalid token");
@@ -138,9 +91,6 @@ export const loginUser = async (_currentState: any, formData: any): Promise<any>
         if (!result.success) {
             throw new Error(result.message || "Login failed");
         }
-
-
-
 
         if (redirectTo) {
             const requestedPath = redirectTo.toString();
