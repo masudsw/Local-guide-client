@@ -1,11 +1,17 @@
 import Link from 'next/link';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
+import { getCookie } from '@/services/auth/tokenHandlers';
+import LogoutButton from './LogoutButton';
 
 const PublicNavbar = async () => {
   const navIterms = [
     { label: 'Find Tour', href: '/find-tour' },
     { label: 'Become a Guide', href: '/become-guide' },
   ];
+
+
+  const accessToken = await getCookie("accessToken");
+
   return (
     <header className="flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b border-gray-100">
       {/* Left Side: Logo */}
@@ -30,12 +36,19 @@ const PublicNavbar = async () => {
 
       </nav>
       <div className='hidden md:flex'>
-        <Link
-          href="/login"
-          className="px-5 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all shadow-md active:scale-95"
-        >
-          Login
-        </Link>
+        {
+          accessToken ? (
+            <LogoutButton />
+          ) : (
+            <Link
+              href="/login"
+              className="px-5 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all shadow-md active:scale-95"
+            >
+              Login
+            </Link>
+          )
+        }
+
       </div>
       <div className='md:hidden'>
         <Sheet>

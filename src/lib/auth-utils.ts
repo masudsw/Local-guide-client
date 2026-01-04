@@ -54,7 +54,7 @@ export const getRouteOwner=(pathname:string): "ADMIN"|"GUIDE"|"TOURIST"|"COMMON"
 
 export const isValidRedirectForRole=(redirectPath:string, role:UserRole):boolean=>{
     const routeOwner=getRouteOwner(redirectPath);
-    if(!routeOwner===null || routeOwner==="COMMON"){
+    if(routeOwner!==null || routeOwner==="COMMON"){
         return true;
     }
     if(routeOwner===role){
