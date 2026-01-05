@@ -1,25 +1,33 @@
 "use client";
 
 import { loginUser } from "@/services/auth/loginUser";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
+import { toast } from "sonner";
 
 const LoginForm = () => {
   const [state, formAction, isPending] = useActionState(loginUser, null);
 
 
-const getFieldError = (fieldName: string) => {
-  if (state?.errors && Array.isArray(state.errors)) {
-    const error = state.errors.find((err: any) => err.field === fieldName);
-    
-    // The ?. prevents the "Cannot read properties of undefined" crash
-    return error?.message || null; 
-  }
-  return null;
-};
-  console.log(state);
+  const getFieldError = (fieldName: string) => {
+    if (state?.errors && Array.isArray(state.errors)) {
+      const error = state.errors.find((err: any) => err.field === fieldName);
+
+      // The ?. prevents the "Cannot read properties of undefined" crash
+      return error?.message || null;
+    }
+    return null;
+  };
+  
+  useEffect(() => {
+    if (state && !state.success && state.message) {
+      console.log("inside register form")
+      toast.error(state.message);
+    }
+  }, [state]);
+
   return (
     <form action={formAction}>
       <FieldGroup>
@@ -33,7 +41,7 @@ const getFieldError = (fieldName: string) => {
               type="email"
               defaultValue={state?.inputs?.email || ""}
               placeholder="m@example.com"
-              //   required
+            //   required
             />
 
             {getFieldError("email") && (
@@ -50,9 +58,9 @@ const getFieldError = (fieldName: string) => {
               id="password"
               name="password"
               type="password"
-                defaultValue={state?.inputs?.password || ""}
+              defaultValue={state?.inputs?.password || ""}
               placeholder="Enter your password"
-              //   required
+            //   required
             />
             {getFieldError("password") && (
               <FieldDescription className="text-red-600">
@@ -73,7 +81,7 @@ const getFieldError = (fieldName: string) => {
                 Sign up
               </a>
             </FieldDescription>
-            
+
           </Field>
         </FieldGroup>
       </FieldGroup>

@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { registerTourist } from "@/services/auth/registerTourist";
+import { toast } from "sonner";
 
 const RegisterForm = () => {
   const [state, formAction, isPending] = useActionState(registerTourist, null);
@@ -16,6 +17,13 @@ const RegisterForm = () => {
     acc[err.field] = err.message;
     return acc;
   }, {}) || {};
+
+  useEffect(() => {
+    if (state && !state.success && state.message) {
+      console.log("inside register form")
+      toast.error(state.message);
+    }
+  }, [state]);
 
   return (
     <>
